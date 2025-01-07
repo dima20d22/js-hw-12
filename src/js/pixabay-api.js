@@ -1,8 +1,11 @@
 const APIKey = "47994824-0d51099febe4e8602bb4fd3aa";
 import axios from "axios";
 
-let page = 1;
-const perPage = 15;
+export let page = 1;
+
+export function nextPage() {
+  page++;
+}
 
 export default async function searchApi(input) {
   return await axios.get("https://pixabay.com/api/", {
@@ -12,7 +15,7 @@ export default async function searchApi(input) {
       image_type: "photo",
       orientation: "horizontal",
       safesearch: true,
-      per_page: perPage,
+      per_page: 15,
       page: page,
     },
   });

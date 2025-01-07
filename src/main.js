@@ -4,32 +4,18 @@ import "simplelightbox/dist/simple-lightbox.min.css";
 import iziToast from "izitoast";
 import searchApi from "./js/pixabay-api";
 import renderCards from "./js/render-function";
+import { nextPage } from "./js/pixabay-api";
+import { page } from "./js/pixabay-api";
 
 const form = document.querySelector("form");
 const input = document.querySelector("input[type=text]");
-
 const loader = document.querySelector(".loader");
 const errrorMessage = document.querySelector("p");
 const btnLoadMore = document.querySelector(".btn__load-more");
 
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  input.value = input.value.trim();
-  if (input.value === "") {
-    iziToast.show({
-      message: "Please give a valid input.",
-      color: "red",
-    });
-    return;
-  }
-
-  btnLoadMore.classList.remove("is-hidden");
-  loader.classList.remove("is-hidden");
-  errrorMessage.classList.add("is-hidden");
-
+async function tryAndCatch(inputValue) {
   try {
-    const response = await searchApi(input.value);
+    const response = await searchApi(inputValue);
     console.log(response);
     const data = response.data;
     renderCards(data);
@@ -40,6 +26,42 @@ form.addEventListener("submit", async (e) => {
     });
   } finally {
     loader.classList.add("is-hidden");
+    btnLoadMore.classList.remove("is-hidden");
   }
-  input.value = "";
+}
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  let inputValue = input.value.trim();
+
+  if (inputValue === "") {
+    iziToast.show({
+      message: "Please give a valid input.",
+      color: "red",
+    });
+    return;
+  }
+
+  // if (page >= 2) {
+  //   page = 1;
+  // }
+
+  try {
+    page = 1;
+  } catch (error) {
+    console.log(error);
+  }
+
+  loader.classList.remove("is-hidden");
+  errrorMessage.classList.add("is-hidden");
+  await tryAndCatch(inputValue);
+  inputValue = "";
+});
+
+btnLoadMore.addEventListener("click", async () => {
+  console.log(page);
+  const inputValue = input.value.trim();
+  nextPage();
+  await tryAndCatch(inputValue);
 });
