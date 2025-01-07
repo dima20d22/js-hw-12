@@ -47,11 +47,11 @@ form.addEventListener("submit", async (e) => {
   //   page = 1;
   // }
 
-  try {
-    page = 1;
-  } catch (error) {
-    console.log(error);
-  }
+  // try {
+  //   page = 1;
+  // } catch (error) {
+  //   console.log(error);
+  // }
 
   loader.classList.remove("is-hidden");
   errrorMessage.classList.add("is-hidden");
