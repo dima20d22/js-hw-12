@@ -10,8 +10,9 @@ const input = document.querySelector("input[type=text]");
 
 const loader = document.querySelector(".loader");
 const errrorMessage = document.querySelector("p");
+const btnLoadMore = document.querySelector(".btn__load-more");
 
-form.addEventListener("submit", (e) => {
+form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   input.value = input.value.trim();
@@ -23,25 +24,22 @@ form.addEventListener("submit", (e) => {
     return;
   }
 
+  btnLoadMore.classList.remove("is-hidden");
   loader.classList.remove("is-hidden");
   errrorMessage.classList.add("is-hidden");
 
-  searchApi(input.value)
-    .then((response) => {
-      if (!response.ok) throw new Error("Network response was not ok");
-      return response.json();
-    })
-    .then((data) => {
-      renderCards(data);
-    })
-    .catch((error) => {
-      iziToast.show({
-        message: "An error occurred while fetching the data.",
-        color: "red",
-      });
-    })
-    .finally(() => {
-      loader.classList.add("is-hidden");
+  try {
+    const response = await searchApi(input.value);
+    console.log(response);
+    const data = response.data;
+    renderCards(data);
+  } catch (error) {
+    iziToast.show({
+      message: "An error occurred while fetching the data.",
+      color: "red",
     });
+  } finally {
+    loader.classList.add("is-hidden");
+  }
   input.value = "";
 });

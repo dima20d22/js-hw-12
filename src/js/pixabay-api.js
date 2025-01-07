@@ -1,9 +1,19 @@
 const APIKey = "47994824-0d51099febe4e8602bb4fd3aa";
+import axios from "axios";
 
-export default function searchApi(input) {
-  return fetch(
-    `https://pixabay.com/api/?key=${APIKey}&q=${encodeURIComponent(
-      input
-    )}&image_type=photo&orientation=horizontal&safesearch=true&`
-  );
+let page = 1;
+const perPage = 15;
+
+export default async function searchApi(input) {
+  return await axios.get("https://pixabay.com/api/", {
+    params: {
+      key: APIKey,
+      q: input,
+      image_type: "photo",
+      orientation: "horizontal",
+      safesearch: true,
+      per_page: perPage,
+      page: page,
+    },
+  });
 }

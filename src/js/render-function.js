@@ -3,6 +3,7 @@ import simpleLightbox from "simplelightbox";
 
 const box = document.querySelector(".box");
 const errrorMessage = document.querySelector("p");
+const btnLoadMore = document.querySelector(".btn__load-more");
 
 export default function renderCards(data) {
   box.innerHTML = "";
@@ -39,3 +40,12 @@ export default function renderCards(data) {
     captionPosition: "bottom",
   });
 }
+
+function loadMore(e) {
+  e.preventDefault();
+
+  page++;
+  renderCards;
+}
+
+btnLoadMore.addEventListener("click", loadMore);

@@ -28,7 +28,7 @@
   border-color: #4e75ff;
 }
 
-.btn {
+.btn__submit {
   height: 40px;
   flex-shrink: 0;
   padding: 10px 20px;
@@ -40,7 +40,7 @@
   border: none;
 }
 
-.btn:hover {
+.btn__submit:hover {
   background-color: #6c8cff;
 }
 
@@ -116,10 +116,6 @@
   }
 }
 
-.is-hidden {
-  display: none;
-}
-
 .error-style {
   text-align: center;
   font-size: 24px;
@@ -137,4 +133,25 @@
   100% {
     transform: translateY(-10px);
   }
+}
+
+.btn__load-more {
+  display: flex;
+  margin: 0 auto;
+  height: 40px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #4e75ff;
+  color: #ffffff;
+  cursor: pointer;
+  border-radius: 8px;
+  border: none;
+}
+
+.btn__load-more:hover {
+  background-color: #6c8cff;
+}
+
+.is-hidden {
+  display: none;
 }
