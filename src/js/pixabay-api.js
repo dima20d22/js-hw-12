@@ -3,10 +3,6 @@ import axios from "axios";
 
 export let page = 1;
 
-export function nextPage() {
-  page++;
-}
-
 export default async function searchApi(input) {
   return await axios.get("https://pixabay.com/api/", {
     params: {
@@ -19,4 +15,12 @@ export default async function searchApi(input) {
       page: page,
     },
   });
+}
+
+export function nextPage() {
+  page++;
+}
+
+export function pageCount() {
+  page = 1;
 }

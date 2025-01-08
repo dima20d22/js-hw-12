@@ -2,66 +2,55 @@ import "izitoast/dist/css/iziToast.min.css";
 import "simplelightbox/dist/simple-lightbox.min.css";
 
 import iziToast from "izitoast";
-import searchApi from "./js/pixabay-api";
-import renderCards from "./js/render-function";
-import { nextPage } from "./js/pixabay-api";
+import { nextPage, pageCount } from "./js/pixabay-api";
 import { page } from "./js/pixabay-api";
+import { box } from "./js/render-function";
+import tryAndCatch from "./js/tryAndCatch";
 
+const btnLoadMore = document.querySelector(".btn__load-more");
 const form = document.querySelector("form");
 const input = document.querySelector("input[type=text]");
 const loader = document.querySelector(".loader");
 const errrorMessage = document.querySelector("p");
-const btnLoadMore = document.querySelector(".btn__load-more");
+console.log(page);
 
-async function tryAndCatch(inputValue) {
-  try {
-    const response = await searchApi(inputValue);
-    console.log(response);
-    const data = response.data;
-    renderCards(data);
-  } catch (error) {
-    iziToast.show({
-      message: "An error occurred while fetching the data.",
-      color: "red",
-    });
-  } finally {
-    loader.classList.add("is-hidden");
-    btnLoadMore.classList.remove("is-hidden");
-  }
-}
+let oldInputValue = "";
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
-
+  pageCount();
   let inputValue = input.value.trim();
+  oldInputValue = inputValue;
+  pageCount();
 
   if (inputValue === "") {
     iziToast.show({
       message: "Please give a valid input.",
       color: "red",
+      position: "topRight",
     });
     return;
   }
 
-  // if (page >= 2) {
-  //   page = 1;
-  // }
-
-  // try {
-  //   page = 1;
-  // } catch (error) {
-  //   console.log(error);
-  // }
-
+  box.innerHTML = "";
   loader.classList.remove("is-hidden");
   errrorMessage.classList.add("is-hidden");
-  await tryAndCatch(inputValue);
-  inputValue = "";
+  btnLoadMore.classList.add("is-hidden");
+  await tryAndCatch(inputValue, btnLoadMore, errrorMessage, loader);
+  input.value = "";
 });
 
 btnLoadMore.addEventListener("click", async () => {
-  console.log(page);
-  const inputValue = input.value.trim();
+  await tryAndCatch(oldInputValue, btnLoadMore, errrorMessage, loader);
   nextPage();
-  await tryAndCatch(inputValue);
+  const rect = box.getBoundingClientRect();
+
+  window.scrollBy({
+    top: rect.bottom - window.innerHeight,
+    behavior: "smooth",
+  });
+
+  console.log("Current page:", page);
 });
+
+console.log(window);

@@ -1,22 +1,8 @@
-import iziToast from "izitoast";
 import simpleLightbox from "simplelightbox";
 
-const box = document.querySelector(".box");
-const errrorMessage = document.querySelector("p");
+export const box = document.querySelector(".box");
 
 export default function renderCards(data) {
-  box.innerHTML += "";
-
-  if (data.total === 0) {
-    iziToast.show({
-      message:
-        "Sorry, there are no images matching your search query. Please try again!",
-      color: "red",
-    });
-    errrorMessage.classList.remove("is-hidden");
-    return;
-  }
-
   data.hits.forEach((hit) => {
     box.innerHTML += `
         <li class='li'>
@@ -33,9 +19,11 @@ export default function renderCards(data) {
       `;
   });
 
-  new simpleLightbox(".box a", {
+  const lightBox = new simpleLightbox(".box a", {
     captionsData: "alt",
     captionDelay: 100,
     captionPosition: "bottom",
   });
+
+  lightBox.refresh();
 }
