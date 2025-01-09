@@ -3,6 +3,7 @@ import glob from 'glob'
 import injectHTML from 'vite-plugin-html-inject'
 import FullReload from 'vite-plugin-full-reload'
 import SortCss from 'postcss-sort-media-queries'
+import ghPages from 'vite-plugin-gh-pages'
 
 export default defineConfig(({ command }) => {
 	return {
