@@ -10,9 +10,6 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: "./src/main.js", // Укажите ваш файл
-        file1: "./src/js/pixabay-api.js", // Укажите ваш файл
-        file2: "./src/js/render-function.js", // Укажите ваш файл
-        file3: "./src/js/tryAndCatch.js", // Укажите ваш файл
       },
       output: {
         entryFileNames: "[name].js", // Название итогового файла
