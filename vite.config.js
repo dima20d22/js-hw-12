@@ -1,52 +1,20 @@
-import { defineConfig } from 'vite'
-import glob from 'glob'
-import injectHTML from 'vite-plugin-html-inject'
-import FullReload from 'vite-plugin-full-reload'
-import SortCss from 'postcss-sort-media-queries'
-import ghPages from 'vite-plugin-gh-pages'
+import { defineConfig } from "vite";
 
-export default defineConfig(({ command }) => {
-	return {
-		define: {
-			[command === 'serve' ? 'global' : '_global']: {},
-		},
-		optimizeDeps: {
-			include: ['axios'],
-		},
-		root: 'src',
-		build: {
-			sourcemap: true,
-			rollupOptions: {
-				input: glob.sync('./src/*.html'),
-				output: {
-					manualChunks(id) {
-						if (id.includes('node_modules')) {
-							return 'vendor'
-						}
-					},
-					entryFileNames: chunkInfo => {
-						if (chunkInfo.name === 'commonHelpers') {
-							return 'commonHelpers.js'
-						}
-						return '[name].js'
-					},
-					assetFileNames: assetInfo => {
-						if (assetInfo.name && assetInfo.name.endsWith('.html')) {
-							return '[name].[ext]'
-						}
-						return 'assets/[name]-[hash][extname]'
-					},
-				},
-			},
-			outDir: '../dist',
-			emptyOutDir: true,
-		},
-		plugins: [
-			injectHTML(),
-			FullReload(['./src/**/*.html']),
-			SortCss({
-				sort: 'mobile-first',
-			}),
-		],
-	}
-})
+export default defineConfig({
+  base: "/js-hw-12/", // GitHub Pages base URL
+  root: "src", // Установите корневую папку
+  build: {
+    outDir: "../dist", // Директория для сборки
+    emptyOutDir: true, // Очистка директории перед сборкой
+    sourcemap: true, // Включить sourcemap для отладки
+    rollupOptions: {
+      input: {
+        main: "./src/index.html", // Главный HTML-файл
+      },
+      output: {
+        entryFileNames: "[name].js", // Имена JS-файлов
+        assetFileNames: "assets/[name]-[hash][extname]", // Имена ассетов
+      },
+    },
+  },
+});
