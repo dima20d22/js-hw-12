@@ -1,6 +1,6 @@
 import "izitoast/dist/css/iziToast.min.css";
 import "simplelightbox/dist/simple-lightbox.min.css";
-
+import "./css/style.css";
 import iziToast from "izitoast";
 import { nextPage, pageCount } from "./js/pixabay-api";
 import { page } from "./js/pixabay-api";
