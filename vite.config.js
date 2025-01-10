@@ -9,11 +9,13 @@ export default defineConfig({
     sourcemap: true, // Включить sourcemap для отладки
     rollupOptions: {
       input: {
-        main: "./src/index.html", // Главный HTML-файл
+        main: "./src/main.js", // Укажите ваш файл
+        file1: "./src/js/pixabay-api.js", // Укажите ваш файл
+        file2: "./src/js/render-function.js", // Укажите ваш файл
+        file3: "./src/js/tryAndCatch.js", // Укажите ваш файл
       },
       output: {
-        entryFileNames: "[name].js", // Имена JS-файлов
-        assetFileNames: "assets/[name]-[hash][extname]", // Имена ассетов
+        entryFileNames: "[name].js", // Название итогового файла
       },
     },
   },
